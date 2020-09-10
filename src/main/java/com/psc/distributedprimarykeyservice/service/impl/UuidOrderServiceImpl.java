@@ -1,10 +1,9 @@
-package com.pcitc.generation.service.impl;
+package com.psc.distributedprimarykeyservice.service.impl;
 
-import java.util.UUID;
-
+import com.psc.distributedprimarykeyservice.service.IOrderService;
 import org.springframework.stereotype.Service;
 
-import com.pcitc.generation.service.IOrderService;
+import java.util.UUID;
 
 /**
  * 
@@ -15,9 +14,10 @@ import com.pcitc.generation.service.IOrderService;
 @Service("uuidOrderServiceImpl")
 public class UuidOrderServiceImpl implements IOrderService {
 
-	public void getOrderId() {
+	public String getOrderId() {
 		UUID randomUUID = UUID.randomUUID(); //UUID生成
 		System.out.println("insert into order_id(id) values('"+randomUUID+"');");
+		return randomUUID.toString();
 	}
 
 }

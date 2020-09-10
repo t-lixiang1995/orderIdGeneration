@@ -1,10 +1,11 @@
-package com.pcitc.generation.utils;
+package com.psc.distributedprimarykeyservice.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 @Component
 public class RedisUtil {
@@ -32,5 +33,16 @@ public class RedisUtil {
 			}
 		}
 		return null;
+	}
+
+	@Bean
+	JedisPool jedisPool(){
+		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+		jedisPoolConfig.setMaxTotal(2000);
+		jedisPoolConfig.setMaxIdle(100);
+		jedisPoolConfig.setMaxWaitMillis(1000);
+		jedisPoolConfig.setTestOnBorrow(true);
+		JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost", 6379);
+		return jedisPool;
 	}
 }

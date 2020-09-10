@@ -1,13 +1,12 @@
-package com.pcitc.generation.service.impl;
+package com.psc.distributedprimarykeyservice.service.impl;
 
-import java.util.Calendar;
-import java.util.Date;
-
+import com.psc.distributedprimarykeyservice.service.IOrderService;
+import com.psc.distributedprimarykeyservice.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pcitc.generation.service.IOrderService;
-import com.pcitc.generation.utils.RedisUtil;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 
@@ -21,12 +20,13 @@ public class RedisOrderServiceImpl implements IOrderService {
 	@Autowired
 	private RedisUtil redis;
 	
-	public void getOrderId() {
+	public String getOrderId() {
 		String key = "orderId";
 		int timeout = 60;
 		String prefix = getPrefix(new Date()); //根据时间获取前缀
 		long id = redis.incr(key, timeout); //使用redis获取自增ID
-		System.out.println("insert into order_id(id) values('"+prefix+String.format("%1$05d", id)+"');");//00001  00002 ... 10001
+		System.out.println("insert into order_id(id) values('"+prefix+ String.format("%1$05d", id)+"');");//00001  00002 ... 10001
+		return prefix+ String.format("%1$05d", id);
 	}
 	
 	private String getPrefix(Date date) {
